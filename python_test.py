@@ -7,3 +7,6 @@ print("interns")
 a=10
 b=20
 print(sum(a,b))
+a=1
+b=2
+print(sum(a,b))

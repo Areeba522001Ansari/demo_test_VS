@@ -3,6 +3,14 @@ import subprocess
 import tempfile
 from pathlib import Path
 import difflib
+import stat
+
+
+def on_rm_error(func, path, exc_info):
+    """Handle errors when trying to delete files."""
+    os.chmod(path, stat.S_IWRITE)  # Change the file to writable
+    func(path)  # Retry the operation
+
 
 def clone_repo_at_commit(github_url, commit_id, target_dir):
     """Clone the repository at a specific commit."""
@@ -16,22 +24,21 @@ def clone_repo_at_commit(github_url, commit_id, target_dir):
         print(f"Error cloning repository at commit {commit_id}: {e}")
         return None
 
+
 def get_recent_commits(github_url):
     """Fetch all commit IDs and display the total count."""
-    try:
-        temp_dir = tempfile.mkdtemp()
-        subprocess.run(["git", "clone", "--bare", github_url, temp_dir], check=True)
-        # Get all commit IDs
-        result = subprocess.run(
-            ["git", "log", "--pretty=%H"], cwd=temp_dir, capture_output=True, text=True
-        )
-        shutil.rmtree(temp_dir)  # Clean up temp dir
-        commits = result.stdout.splitlines()
-        print(f"Total number of commits in the repository: {len(commits)}")
-        return commits
-    except subprocess.CalledProcessError as e:
-        print("Error fetching commits:", e)
-        return []
+    with tempfile.TemporaryDirectory() as temp_dir:
+        try:
+            subprocess.run(["git", "clone", "--bare", github_url, temp_dir], check=True)
+            result = subprocess.run(
+                ["git", "log", "--pretty=%H"], cwd=temp_dir, capture_output=True, text=True
+            )
+            commits = result.stdout.splitlines()
+            print(f"Total number of commits in the repository: {len(commits)}")
+            return commits
+        except subprocess.CalledProcessError as e:
+            print("Error fetching commits:", e)
+            return []
 
 
 def find_common_files(dir1, dir2):
@@ -39,6 +46,7 @@ def find_common_files(dir1, dir2):
     files1 = {file.name for file in Path(dir1).rglob("*") if file.is_file()}
     files2 = {file.name for file in Path(dir2).rglob("*") if file.is_file()}
     return files1.intersection(files2)
+
 
 def compare_files(file1_path, file2_path):
     """Compare two files and show the differences."""
@@ -56,6 +64,7 @@ def compare_files(file1_path, file2_path):
     else:
         print("The selected files are identical.")
 
+
 if __name__ == "__main__":
     github_url = input("Enter the GitHub repository URL: ")
 
@@ -72,27 +81,26 @@ if __name__ == "__main__":
     print(f"Recent commits:\n1. {commits[0]}\n2. {commits[1]}")
 
     # Step 2: Clone repo at each commit
-    dir1 = tempfile.mkdtemp()
-    dir2 = tempfile.mkdtemp()
-    clone_repo_at_commit(github_url, commits[0], dir1)
-    clone_repo_at_commit(github_url, commits[1], dir2)
+    with tempfile.TemporaryDirectory() as dir1, tempfile.TemporaryDirectory() as dir2:
+        clone_repo_at_commit(github_url, commits[0], dir1)
+        clone_repo_at_commit(github_url, commits[1], dir2)
 
-    # Step 3: Find common files
-    common_files = find_common_files(dir1, dir2)
-    if not common_files:
-        print("No common files found between the two commits.")
-    else:
-        print("Common files found:")
-        for idx, file in enumerate(common_files, start=1):
-            print(f"{idx}. {file}")
-
-        # Step 4: Select files for comparison
-        selected_file = input("Enter the name of the file to compare: ")
-        file1_path = Path(dir1) / selected_file
-        file2_path = Path(dir2) / selected_file
-
-        if file1_path.exists() and file2_path.exists():
-            # Step 5: Compare files
-            compare_files(file1_path, file2_path)
+        # Step 3: Find common files
+        common_files = find_common_files(dir1, dir2)
+        if not common_files:
+            print("No common files found between the two commits.")
         else:
-            print("The selected file does not exist in one or both commits.")
+            print("Common files found:")
+            for idx, file in enumerate(common_files, start=1):
+                print(f"{idx}. {file}")
+
+            # Step 4: Select files for comparison
+            selected_file = input("Enter the name of the file to compare: ")
+            file1_path = Path(dir1) / selected_file
+            file2_path = Path(dir2) / selected_file
+
+            if file1_path.exists() and file2_path.exists():
+                # Step 5: Compare files
+                compare_files(file1_path, file2_path)
+            else:
+                print("The selected file does not exist in one or both commits.")

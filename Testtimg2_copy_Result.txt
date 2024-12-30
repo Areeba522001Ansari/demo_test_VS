@@ -1,0 +1,147 @@
+Step
+1 select guthub-> link--> default branch--> gtihub link branch name(after the impl) -->
+2 list of recent commits( last and second last)
+3 Use commits id for cloning( last and second last)
+4 2 commits will have the 2 dir 
+5 identify files common name
+6 drop down will come( select the 2 files which u want to compare)
+
+
+
+(.venv) C:\Users\areeb\OneDrive\文档\Use_Case_1>python Testing_2_copy.py
+Enter the GitHub repository URL: https://github.com/Areeba522001Ansari/demo_test_VS.git
+Cloning into bare repository 'C:\Users\areeb\AppData\Local\Temp\tmpqm13hw2_'...
+remote: Enumerating objects: 22, done.
+remote: Counting objects: 100% (22/22), done.
+remote: Compressing objects: 100% (15/15), done.
+remote: Total 22 (delta 6), reused 19 (delta 3), pack-reused 0 (from 0)
+Receiving objects: 100% (22/22), 4.19 KiB | 1.05 MiB/s, done.
+Resolving deltas: 100% (6/6), done.
+Total number of commits in the repository: 7
+Recent commits:
+1. 96f13d31edde956a32012d7c46eeb4878c821f76
+2. 6baeb164810303f53c6ea7da13d96df08f5e1956
+Cloning repository for commit 96f13d31edde956a32012d7c46eeb4878c821f76...
+Cloning into 'C:\Users\areeb\AppData\Local\Temp\tmp6rjuz2_s'...
+remote: Enumerating objects: 22, done.
+remote: Counting objects: 100% (22/22), done.
+remote: Compressing objects: 100% (15/15), done.
+remote: Total 22 (delta 6), reused 19 (delta 3), pack-reused 0 (from 0)
+Receiving objects: 100% (22/22), 4.19 KiB | 1.05 MiB/s, done.
+Resolving deltas: 100% (6/6), done.
+Note: switching to '96f13d31edde956a32012d7c46eeb4878c821f76'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 96f13d3 added code 2
+Cloned repository at commit 96f13d31edde956a32012d7c46eeb4878c821f76 into C:\Users\areeb\AppData\Local\Temp\tmp6rjuz2_s
+Cloning repository for commit 6baeb164810303f53c6ea7da13d96df08f5e1956...
+Cloning into 'C:\Users\areeb\AppData\Local\Temp\tmpte087fx8'...
+remote: Enumerating objects: 22, done.
+remote: Counting objects: 100% (22/22), done.
+remote: Compressing objects: 100% (15/15), done.
+remote: Total 22 (delta 6), reused 19 (delta 3), pack-reused 0 (from 0)
+Receiving objects: 100% (22/22), 4.19 KiB | 612.00 KiB/s, done.
+Resolving deltas: 100% (6/6), done.
+Note: switching to '6baeb164810303f53c6ea7da13d96df08f5e1956'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 6baeb16 added code 1
+Cloned repository at commit 6baeb164810303f53c6ea7da13d96df08f5e1956 into C:\Users\areeb\AppData\Local\Temp\tmpte087fx8
+Common files found:
+1. pre-push.sample
+2. exclude
+3. pre-applypatch.sample
+4. pre-commit.sample
+5. HEAD
+6. update.sample
+7. post-update.sample
+8. sendemail-validate.sample
+9. commit-msg.sample
+10. push-to-checkout.sample
+11. Testing_2.py
+12. description
+13. index
+14. applypatch-msg.sample
+15. basic_streamlit.py
+16. pack-03cedd9293ff9b6d9fd3750009cb268676f9955e.rev
+17. pre-rebase.sample
+18. python_test.py
+19. pre-merge-commit.sample
+20. prepare-commit-msg.sample
+21. packed-refs
+22. main
+23. pack-03cedd9293ff9b6d9fd3750009cb268676f9955e.idx
+24. testing.py
+25. pack-03cedd9293ff9b6d9fd3750009cb268676f9955e.pack
+26. pre-receive.sample
+27. config
+28. fsmonitor-watchman.sample
+Enter the name of the file to compare: python_test.py
+Differences found between the files:
+--- Commit 1
++++ Commit 2
+@@ -9,8 +9,4 @@
+27. config
+28. fsmonitor-watchman.sample
+Enter the name of the file to compare: python_test.py
+Differences found between the files:
+--- Commit 1
+27. config
+28. fsmonitor-watchman.sample
+Enter the name of the file to compare: python_test.py
+Differences found between the files:
+27. config
+28. fsmonitor-watchman.sample
+Enter the name of the file to compare: python_test.py
+27. config
+27. config
+28. fsmonitor-watchman.sample
+Enter the name of the file to compare: python_test.py
+Differences found between the files:
+--- Commit 1
++++ Commit 2
+@@ -9,8 +9,4 @@
+ print(sum(a,b))
+
+ a=1
+
+ b=2
+
+-print(sum(a,b))
+
+-a=1
+
+-b=2
+
+-c=a+b
+
+-print(c)
++print(sum(a,b))
